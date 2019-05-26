@@ -1,27 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Birder</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="scripts.js"></script>
-</head>
-<body>
-    <header>
-        <h1>Birder</h1>
-    </header>
-    <ul>
-        <% for (const twit of twits) { %>
-            <li> <%= twit.message %> </li>
-        <% } %>
-    </ul>
-    <form action="/" method="POST">
-        <textarea name="message"></textarea>
-        <input type="submit" value="Twit">
-    </form>
-    <footer>
-    </footer>>
-</body>
+    <head>
+        <meta charset="utf-8">
+        <title>Birder</title>
+        <link rel="stylesheet" href="styles.css">
+        <script src="scripts.js"></script>
+    </head>
+    <body>
+        <header>
+            <h1>Birder</h1>
+        </header>
+        <ul>
+            <% for (const twit of twits) { %>
+                <li><%= twit.message %></li>
+            <% } %>
+        </ul>
+        <form action="/" method="POST">
+            <textarea name="message"></textarea><br>
+            <input type="submit" value="Twit">
+        </form>
+        <footer>
+        </footer>
+    </body>
 </html>
