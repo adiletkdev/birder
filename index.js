@@ -14,12 +14,32 @@ const sequelize = new Sequelize({
     dialect: process.env.BIRDER_DB_DIALECT
 });
 
+const User = sequelize.define('user', {
+    'login' : {
+        'type' : Sequelize.STRING,
+        'allowNull' : false,
+        'unique' : true
+    },
+    'password' : {
+        'type' : Sequelize.STRING,
+        'allowNull' : false
+    },
+    'admin' : {
+        'type' : Sequelize.BOOLEAN,
+        'allowNull' : false,
+        'defaultValue': false
+    }
+});
+
 const Twit = sequelize.define('twit', {
     'message' : {
         'type' : Sequelize.STRING,
         'allowNull' : false
     }
 });
+
+User.hasMany(Twit);
+Twit.belongsTo(User);
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -45,5 +65,11 @@ app.post('/', (request, response) => {
 });
 
 sequelize.sync().then(() => {
-    app.listen(port, () => console.log(`Birder is listening on port ${port}.`));
+    User.upsert({
+        'login' : process.env.BIRDER_ADMIN_LOGIN,
+        'password' : process.env.BIRDER_ADMIN_PASSWORD,
+        'admin' : true
+    }).then(() => {
+        app.listen(port, () => console.log(`Birder is listening on port ${port}.`));
+    }); 
 });

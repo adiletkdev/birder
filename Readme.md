@@ -28,6 +28,10 @@ BIRDER_DB_DIALECT= # one of 'mysql' | 'mariadb' | 'postgres' | 'mssql'
 # Web Server Configurations
 BIRDER_PORT=
 
+# Web App Configurations
+BIRDER_ADMIN_LOGIN=
+BIRDER_ADMIN_PASSWORD=
+
 3. Install all the dependencies.
 
 ```bash
