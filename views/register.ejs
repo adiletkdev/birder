@@ -10,17 +10,21 @@
         <header>
             <h1>Birder</h1>
         </header>
+        <% if (session.error) { %>
+            <p><%= session.error %></p>
+            <% session.error = undefined; %>
+        <% } %>
         <form action="/register" method="POST">
             <label>
-                Select a new Login
+                Select a new Login<br>
                 <input type="text" name="login" required>
             </label><br>
             <label>
-                Password
+                Password<br>
                 <input type="password" name="password" required>
             </label><br>
             <label>
-                Repeat the Password
+                Repeat the Password<br>
                 <input type="password" name="password-repeat" required>
             </label><br>
             <input type="submit" value="Sign Up">

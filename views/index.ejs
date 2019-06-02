@@ -9,16 +9,27 @@
     <body>
         <header>
             <h1>Birder</h1>
+            <div class="user-panel">
+                <% if (session.authorized) { %>
+                    <%= session.login %>
+                    <a href="/logout">Log Out</a>
+                <% } else { %>
+                    <a href="/register">Register</a>
+                    <a href="/login">Log In</a>
+                <% } %>
+            </div>
         </header>
         <ul>
             <% for (const twit of twits) { %>
                 <li><%= twit.message %></li>
             <% } %>
         </ul>
-        <form action="/" method="POST">
-            <textarea name="message"></textarea><br>
-            <input type="submit" value="Twit">
-        </form>
+        <% if (session.authorized) { %>
+            <form action="/" method="POST">
+                <textarea name="message"></textarea><br>
+                <input type="submit" value="Twit">
+            </form>
+        <% } %>
         <footer>
             <p>&copy; 2019</p>
         </footer>
