@@ -26,13 +26,19 @@ BIRDER_DB_PASSWORD=
 BIRDER_DB_DIALECT= # one of 'mysql' | 'mariadb' | 'postgres' | 'mssql'
 
 # Web Server Configurations
-BIRDER_PORT=
+BIRDER_HTTP_PORT=
+BIRDER_HTTPS_PORT=
 
 # Web App Configurations
 BIRDER_ADMIN_LOGIN=
 BIRDER_ADMIN_PASSWORD=
 BIRDER_SESSION_SECRET=
 BIRDER_PASSWORD_SALT_ROUNDS=
+
+# HTTPS Certificate Data
+BIRDER_HTTPS_PRIVKEY=
+BIRDER_HTTPS_CERT=
+BIRDER_HTTPS_CHAIN=
 
 3. Install all the dependencies.
 

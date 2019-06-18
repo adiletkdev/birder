@@ -3,9 +3,22 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const Sequelize = require('sequelize');
 const bcrypt = require('bcrypt');
+const fs = require('fs');
+const https = require('https');
+const http = require('http');
 require('dotenv').config();
 
-const port = process.env.BIRDER_PORT;
+const httpPort = process.env.BIRDER_HTTP_PORT;
+const httpsPort = process.env.BIRDER_HTTPS_PORT;
+
+const privateKey = fs.readFileSync(process.env.BIRDER_HTTPS_PRIVKEY, 'utf8');
+const certificate = fs.readFileSync(process.env.BIRDER_HTTPS_CERT, 'utf8');
+const ca = fs.readFileSync(process.env.BIRDER_HTTPS_CHAIN, 'utf8');
+const credentials = {
+	key: privateKey,
+	cert: certificate,
+	ca: ca
+};
 
 const sequelize = new Sequelize({
     host: process.env.BIRDER_DB_HOST,
@@ -173,6 +186,12 @@ sequelize.sync().then(() => {
         'password' : bcrypt.hashSync(process.env.BIRDER_ADMIN_PASSWORD, parseInt(process.env.BIRDER_PASSWORD_SALT_ROUNDS)),
         'admin' : true
     }).then(() => {
-        app.listen(port, () => console.log(`Birder is listening on port ${port}.`));
+        http.createServer((req, res) => {
+            res.writeHead(301, { 'Location': `https://${req.headers['host']}${req.url}` });
+            res.end();
+        }).listen(httpPort);
+
+        const httpsServer = https.createServer(credentials, app);
+        httpsServer.listen(httpsPort, () => console.log(`Birder is listening on port ${httpsPort}.`));
     });
 });
